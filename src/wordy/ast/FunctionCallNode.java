@@ -1,29 +1,15 @@
 package wordy.ast;
 
-import java.io.PrintWriter;
-import java.util.Arrays;
-import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 
 import wordy.interpreter.EvaluationContext;
 
-public class FunctionNode extends StatementNode {
-
-
-    // In the WordyParser file, make a new rule to read function def and function call 
-    // In the EvaluationContext file, make a map to store function name and the node 
-    // In the FunctionCallNode file, get the function from the map
-
-    public FunctionNode() {
-
-    }    
+public class FunctionCallNode extends ExpressionNode {
 
     @Override
-    protected void doRun(EvaluationContext context) {
+    protected double doEvaluate(EvaluationContext context) {
         // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'doRun'");
+        throw new UnsupportedOperationException("Unimplemented method 'doEvaluate'");
     }
 
     @Override
