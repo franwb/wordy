@@ -18,6 +18,7 @@ import wordy.ast.BlockNode;
 import wordy.ast.ConditionalNode;
 import wordy.ast.ConstantNode;
 import wordy.ast.ExpressionNode;
+import wordy.ast.FunctionCallNode;
 import wordy.ast.LoopExitNode;
 import wordy.ast.LoopNode;
 import wordy.ast.StatementNode;
@@ -96,6 +97,18 @@ public class WordyParser extends BaseParser<ASTNode> {
             OptionalSurroundingSpace(":"),
             Block(),
             KeyPhrase("end of definition")
+        );
+    }
+
+    Rule FunctionCall() {
+        return Sequence(
+            KeyPhrase("do"),
+            OneOrMore(FirstOf(
+                CharRange('a', 'z'),
+                CharRange('A', 'Z'),
+                "_")),
+            push(new FunctionCallNode(matchOrDefault(" "))),
+            OptionalSpace()
         );
     }
 

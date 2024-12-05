@@ -5,10 +5,16 @@ import java.util.Map;
 import wordy.interpreter.EvaluationContext;
 
 public class FunctionCallNode extends ExpressionNode {
+    private final String name;
+
+    public FunctionCallNode(String name) {
+        this.name = name;
+    }
 
     @Override
     protected double doEvaluate(EvaluationContext context) {
         // TODO Auto-generated method stub
+        context.call(name);
         throw new UnsupportedOperationException("Unimplemented method 'doEvaluate'");
     }
 
