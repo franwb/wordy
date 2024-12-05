@@ -11,7 +11,7 @@ import wordy.interpreter.EvaluationContext;
 
 public class FunctionNode extends StatementNode {
 
-
+    private EvaluationContext functionContext = new EvaluationContext();
     // In the WordyParser file, make a new rule to read function def and function call 
     // In the EvaluationContext file, make a map to store function name and the node 
     // In the FunctionCallNode file, get the function from the map

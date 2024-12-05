@@ -88,6 +88,17 @@ public class WordyParser extends BaseParser<ASTNode> {
             LoopExit());
     }
 
+    Rule Function() {
+        return Sequence(
+            KeyPhrase("define"),
+            Variable(), 
+            KeyPhrase("to be"),
+            OptionalSurroundingSpace(":"),
+            Block(),
+            KeyPhrase("end of definition")
+        );
+    }
+
     Rule Conditional() {
         Var<ConditionalNode.Operator> comparisonOperator = new Var<>();
         return Sequence(
