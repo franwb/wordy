@@ -1,7 +1,10 @@
 package wordy.ast;
 
+import static wordy.ast.Utils.orderedMap;
+
 import java.io.PrintWriter;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -21,7 +24,7 @@ public class FunctionNode extends StatementNode {
     public FunctionNode(String name, BlockNode body) {
         this.name = name;
         this.body = body;
-    }    
+    }  
 
     public void call() {
         body.run(functionContext);
@@ -34,20 +37,24 @@ public class FunctionNode extends StatementNode {
 
     @Override
     public Map<String, ASTNode> getChildren() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getChildren'");
+        Map<String, ASTNode> children = new HashMap<>();
+        children.put("body", body);
+        return children;
     }
 
     @Override
     public boolean equals(Object obj) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'equals'");
+        if(this == obj)
+            return true;
+        if(obj == null || getClass() != obj.getClass())
+            return false;
+        FunctionNode that = (FunctionNode) obj;
+        return this.name.equals(that.name);
     }
 
     @Override
     public int hashCode() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'hashCode'");
+        return Objects.hash(name, body);
     }
     
 }
