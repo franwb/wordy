@@ -19,6 +19,7 @@ import wordy.ast.ConditionalNode;
 import wordy.ast.ConstantNode;
 import wordy.ast.ExpressionNode;
 import wordy.ast.FunctionCallNode;
+import wordy.ast.FunctionNode;
 import wordy.ast.LoopExitNode;
 import wordy.ast.LoopNode;
 import wordy.ast.StatementNode;
@@ -84,30 +85,40 @@ public class WordyParser extends BaseParser<ASTNode> {
     Rule Statement() {
         return FirstOf(
             Assignment(),
+            Function(),
             Conditional(),
             Loop(),
             LoopExit());
     }
 
     Rule Function() {
+        Var<String> name = new Var<>();
         return Sequence(
             KeyPhrase("define"),
-            Variable(), 
+            OptionalSpace(),
+            Sequence(OneOrMore(FirstOf(
+                CharRange('a', 'z'),
+                CharRange('A', 'Z'),
+                "_")),
+            name.set(matchOrDefault(" "))),
+            OptionalSpace(),
             KeyPhrase("to be"),
             OptionalSurroundingSpace(":"),
             Block(),
-            KeyPhrase("end of definition")
+            KeyPhrase("end of definition"),
+            push(new FunctionNode(name.get(), (BlockNode) pop()))
         );
     }
 
     Rule FunctionCall() {
         return Sequence(
             KeyPhrase("do"),
-            OneOrMore(FirstOf(
-                CharRange('a', 'z'),
-                CharRange('A', 'Z'),
-                "_")),
-            push(new FunctionCallNode(matchOrDefault(" "))),
+            OptionalSurroundingSpace(
+                OneOrMore(FirstOf(
+                    CharRange('a', 'z'),
+                    CharRange('A', 'Z'),
+                    "_"))),
+            push(new FunctionCallNode("")),
             OptionalSpace()
         );
     }
@@ -173,7 +184,10 @@ public class WordyParser extends BaseParser<ASTNode> {
     }
 
     Rule Expression() {
-        return AdditiveExpression();
+        return FirstOf(
+            AdditiveExpression(),
+            FunctionCall()
+        );
     }
 
     Rule AdditiveExpression() {

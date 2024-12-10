@@ -1,6 +1,8 @@
 package wordy.ast;
 
+import java.util.Collections;
 import java.util.Map;
+import java.util.Objects;
 
 import wordy.interpreter.EvaluationContext;
 
@@ -13,27 +15,28 @@ public class FunctionCallNode extends ExpressionNode {
 
     @Override
     protected double doEvaluate(EvaluationContext context) {
-        // TODO Auto-generated method stub
-        context.call(name);
-        throw new UnsupportedOperationException("Unimplemented method 'doEvaluate'");
+        context.call(name).call();
+        return 0;
     }
 
     @Override
     public Map<String, ASTNode> getChildren() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getChildren'");
+        return Collections.emptyMap();
     }
 
     @Override
     public boolean equals(Object obj) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'equals'");
+        if(this == obj)
+            return true;
+        if(obj == null || getClass() != obj.getClass())
+            return false;
+        FunctionCallNode that = (FunctionCallNode) obj;
+        return this.name.equals(that.name);
     }
 
     @Override
     public int hashCode() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'hashCode'");
+        return Objects.hash(name);
     }
     
 }
