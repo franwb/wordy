@@ -14,7 +14,6 @@ import wordy.interpreter.EvaluationContext;
 
 public class FunctionNode extends StatementNode {
 
-    private EvaluationContext functionContext = new EvaluationContext();
     private BlockNode body;
     private final String name;
     // In the WordyParser file, make a new rule to read function def and function call 
@@ -26,8 +25,8 @@ public class FunctionNode extends StatementNode {
         this.body = body;
     }  
 
-    public void call() {
-        body.run(functionContext);
+    public void call(EvaluationContext context) {
+        body.run(context);
     }
 
     @Override

@@ -42,7 +42,7 @@ public class EvaluationContext {
     /**
      * Returns the current node correspond to the function with the given name.
      */
-    public FunctionNode call(String name) {
+    public FunctionNode retrieve(String name) {
         FunctionNode result = functions.get(name);
         return (result == null) ? new FunctionNode(" ", BlockNode.EMPTY) : result;
     }
@@ -63,6 +63,10 @@ public class EvaluationContext {
 
     public Map<String, Double> allVariables() {
         return Collections.unmodifiableMap(variables);
+    }
+
+    public Map<String, FunctionNode> allFunctions() {
+        return Collections.unmodifiableMap(functions);
     }
 
     public void trace(ASTNode astNode, Tracer.Phase phase) {

@@ -111,14 +111,17 @@ public class WordyParser extends BaseParser<ASTNode> {
     }
 
     Rule FunctionCall() {
+        Var<String> name = new Var<>();
         return Sequence(
             KeyPhrase("do"),
-            OptionalSurroundingSpace(
-                OneOrMore(FirstOf(
-                    CharRange('a', 'z'),
-                    CharRange('A', 'Z'),
-                    "_"))),
-            push(new FunctionCallNode("")),
+            ZeroOrMore(
+                Sequence(
+                    OneOrMore(FirstOf(
+                        CharRange('a', 'z'),
+                        CharRange('A', 'Z'),
+                        "_")),
+                    name.set(matchOrDefault(" ")))),
+            push(new FunctionCallNode(name.get())),
             OptionalSpace()
         );
     }
@@ -184,10 +187,7 @@ public class WordyParser extends BaseParser<ASTNode> {
     }
 
     Rule Expression() {
-        return FirstOf(
-            AdditiveExpression(),
-            FunctionCall()
-        );
+        return AdditiveExpression();
     }
 
     Rule AdditiveExpression() {
@@ -242,7 +242,7 @@ public class WordyParser extends BaseParser<ASTNode> {
     }
 
     Rule Atom() {
-        return FirstOf(Number(), Variable(), Parens());
+        return FirstOf(Number(), FunctionCall(), Variable(), Parens());
     }
 
     Rule Parens() {
