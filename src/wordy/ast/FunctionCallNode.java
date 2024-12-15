@@ -1,6 +1,11 @@
 package wordy.ast;
 
+import static wordy.ast.Utils.orderedMap;
+
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
@@ -8,15 +13,27 @@ import wordy.interpreter.EvaluationContext;
 
 public class FunctionCallNode extends ExpressionNode {
     private final String name;
+    private EvaluationContext functionContext = new EvaluationContext();
 
     public FunctionCallNode(String name) {
         this.name = name;
+        functionContext.set("result", 0);
     }
 
     @Override
     protected double doEvaluate(EvaluationContext context) {
-        context.call(name).call();
-        return 0;
+        Map<String, Double> globalVars = context.allVariables();
+        Map<String, FunctionNode> globalFunctions = context.allFunctions();
+        for (String key : globalVars.keySet()) {
+            functionContext.set(key, globalVars.get(key));
+        }
+        for (String key : globalFunctions.keySet()) {
+            if (key != name) {
+                functionContext.define(key, globalFunctions.get(key));
+            }
+        }
+        context.retrieve(name).call(functionContext);
+        return functionContext.get("result");
     }
 
     @Override
@@ -36,7 +53,7 @@ public class FunctionCallNode extends ExpressionNode {
 
     @Override
     public int hashCode() {
-        return Objects.hash(name);
+        return Objects.hash(name, functionContext);
     }
     
 }
