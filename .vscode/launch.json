@@ -6,6 +6,13 @@
     "configurations": [
         {
             "type": "java",
+            "name": "FunctionCallNode",
+            "request": "launch",
+            "mainClass": "wordy.ast.FunctionCallNode",
+            "projectName": "finalProject"
+        },
+        {
+            "type": "java",
             "name": "Playground",
             "request": "launch",
             "mainClass": "wordy.demo.Playground",

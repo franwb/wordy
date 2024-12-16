@@ -92,6 +92,19 @@ public class InterpreterTest {
         assertVariableEquals("y", 285);
     }
 
+    @Test
+    void executeFunction() {
+        String program =
+            "set a to 0." 
+            + "define test to be: set a to 10. set result to a plus 1. End of definition. ";
+
+        runProgram(program);
+        assertVariableEquals("a", 0);
+        runStatement("set b to do test.");
+        assertVariableEquals("b", 11);
+        assertVariableEquals("a", 0);
+    }
+
     // ––––––– Helpers –––––––
 
     private void assertEvaluationEquals(double expected, String expression) {

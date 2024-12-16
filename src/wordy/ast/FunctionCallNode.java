@@ -60,7 +60,7 @@ public class FunctionCallNode extends ExpressionNode {
     @Override
     public void compile(PrintWriter out) {
         // Generate the method call
-        out.print(name + "();"); // Assume no parameters
+        out.print(name + "()"); // Assume no parameters
     }
     
     // @Override
@@ -68,3 +68,4 @@ public class FunctionCallNode extends ExpressionNode {
     //     out.print(name + "()");
     // }
 }
+
