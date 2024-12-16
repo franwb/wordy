@@ -56,4 +56,14 @@ public class FunctionNode extends StatementNode {
         return Objects.hash(name, body);
     }
     
+    @Override
+    public void compile(PrintWriter out) {
+        if (body == null) {
+            throw new IllegalStateException("FunctionNode must have a body to compile.");
+        }
+        out.println("public void " + name + "() {");
+        body.compile(out);
+        out.println("}");
+    }
+
 }

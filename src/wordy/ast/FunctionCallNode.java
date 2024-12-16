@@ -2,6 +2,7 @@ package wordy.ast;
 
 import static wordy.ast.Utils.orderedMap;
 
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -55,5 +56,15 @@ public class FunctionCallNode extends ExpressionNode {
     public int hashCode() {
         return Objects.hash(name, functionContext);
     }
+
+    @Override
+    public void compile(PrintWriter out) {
+        // Generate the method call
+        out.print(name + "();"); // Assume no parameters
+    }
     
+    // @Override
+    // public void compile(PrintWriter out) {
+    //     out.print(name + "()");
+    // }
 }
