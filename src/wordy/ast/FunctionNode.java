@@ -16,9 +16,6 @@ public class FunctionNode extends StatementNode {
 
     private BlockNode body;
     private final String name;
-    // In the WordyParser file, make a new rule to read function def and function call 
-    // In the EvaluationContext file, make a map to store function name and the node 
-    // In the FunctionCallNode file, get the function from the map
 
     public FunctionNode(String name, BlockNode body) {
         this.name = name;
@@ -56,4 +53,15 @@ public class FunctionNode extends StatementNode {
         return Objects.hash(name, body);
     }
     
+    @Override
+    public void compile(PrintWriter out) {
+        if (body == null) {
+            throw new IllegalStateException("FunctionNode must have a body to compile.");
+        }
+        out.println("public double " + name + "() {");
+        body.compile(out);
+        out.println("return context.result;");
+        out.println("}");
+    }
+
 }
